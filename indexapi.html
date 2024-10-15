@@ -169,7 +169,7 @@
                             <h4 class="display-4">
                                 <i class="fas fa-users"></i>1
                             </h4>
-                            <a href="users.html" class="btn btn-outline-light btn-sm">view</a>
+                            <a href="#" class="btn btn-outline-light btn-sm">view</a>
                         </div>
                     </div>
                     </div>
@@ -339,20 +339,20 @@
                     <form>
                         <div class="form-group">
                             <label for="Name">Name</label>
-                            <input type="text" class="form-control" id="username">
+                            <input type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                           <input type="email" class="form-control" id="useremail">
+                           <input type="email" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="password">password</label>
-                            <input type="password" class="form-control" id="userpassword">
+                            <input type="password" class="form-control">
                            
                         </div>
                         <div class="form-group">
                             <label for="password2">Confirm password</label>
-                            <input type="password" class="form-control" id="userpassword2">
+                            <input type="password" class="form-control">
                            
                         </div>
                     </form>
@@ -363,15 +363,32 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", renderData);
+    
+async function init() {
+    const resp = await axios.get('https://dummyjson.com/posts');
+    // resp = {
+    //     data: {
+    //         posts: [
+    //             {
+    //                 "id" : "sdds",
+    //                 "title": "sdfs"
+    //             }
+    //         ]
+    //     }
+    // }
+    axios.put('url',)
+    console.log("-----")
+    console.log("-----",resp)
+    Trainersdata = resp.data.posts
+    renderData()
+}
 
-let Trainersdata=[];
 let catarr=[]
 function addcat(){
     let addedcat=document.getElementById("categoryId")
     catarr.push(addedcat.value);
-    // localStorage.setItem("catarr", JSON.stringify(catarr));
     let discat=document.getElementById("discat")
     discat.innerHTML=`${catarr.length}`
     let sc="";
@@ -384,17 +401,10 @@ function addcat(){
     catopt.innerHTML=sc;
     Editcatopt.innerHTML=sc;
 }
-function renderData(){
-    // let storedData = localStorage.getItem("Trainersdata");
-    // if (storedData) {
-    //     Trainersdata = JSON.parse(storedData);
-    // }
-    // let storedCategories = localStorage.getItem("catarr");
-    // if (storedCategories) {
-    //     catarr = JSON.parse(storedCategories);
-    // }
+async function renderData(){
+    // const axios = require('axios/dist/browser/axios.cjs');
+    
     let tb = '';
-
     for(let i=0;i<Trainersdata.length;i++){
         let item = Trainersdata[i]
         tb += `<tr>
@@ -414,10 +424,10 @@ function renderData(){
 cindex=0;
 function adddata(){
     let titleone=document.getElementById("titleone");
-        let catopt=document.getElementById("catopt");
-        let date=document.getElementById("Date")
-        let img=document.getElementById("image");
-        let summaryT=document.getElementById("summaryT");
+    let catopt=document.getElementById("catopt");
+    let date=document.getElementById("Date")
+    let img=document.getElementById("image");
+    let summaryT=document.getElementById("summaryT");
         
     let Ndata={}
     Ndata.id=Trainersdata.length+1;
@@ -427,39 +437,35 @@ function adddata(){
     Ndata.image=img.value;
     Ndata.summary=summaryT.value;
 // Trainersdata[count-1]=Ndata;
-Trainersdata.push(Ndata)
-// localStorage.setItem("Trainersdata", JSON.stringify(Trainersdata));
-let dispos=document.getElementById("dispos");
-dispos.innerHTML=` ${Trainersdata.length}`;
-console.log(Trainersdata)
+// Trainersdata.push(Ndata)
+// let dispos=document.getElementById("dispos");
+// dispos.innerHTML=` ${Trainersdata.length}`;
+// console.log(Trainersdata)
+
+axios.post('dummy/addPost',Ndata);
 // count++;
 renderData()
 }
 
 function editfunction(index){
     cindex=index
-document.getElementById("Edittitleone").value=Trainersdata[index].title;
-document.getElementById("Editcatopt").value=Trainersdata[index].category;
-document.getElementById("EditDate").value=Trainersdata[index].datePosted;
-$('#editPostModal').modal('show');
+    document.getElementById("Edittitleone").value=Trainersdata[index].title;
+    document.getElementById("Editcatopt").value=Trainersdata[index].category;
+    document.getElementById("EditDate").value=Trainersdata[index].datePosted;
+    $('#editPostModal').modal('show');
 
 }
 function savefunction(){
-Trainersdata[cindex].title=document.getElementById("Edittitleone").value;
-catarr[cindex]=document.getElementById("Editcatopt").value;
-Trainersdata[cindex].datePosted=document.getElementById("EditDate").value;
-Trainersdata[cindex].summary=document.getElementById("EditsummaryT").value;
-$('#editPostModal').modal('hide');
-renderData()
+    Trainersdata[cindex].title=document.getElementById("Edittitleone").value;
+    catarr[cindex]=document.getElementById("Editcatopt").value;
+    Trainersdata[cindex].datePosted=document.getElementById("EditDate").value;
+    Trainersdata[cindex].summary=document.getElementById("EditsummaryT").value;
+    $('#editPostModal').modal('hide');
+    renderData()
 }
-let username = document.getElementById("username").value;
-let useremail=document.getElementById("useremail").value;
-let userpassword=document.getElementById("userpassword").value;
-let userpassword2=document.getElementById("userpassword2").value;
 
-
-renderData()
-    </script>
+init()
+</script>
 </body>
 </html>
 
